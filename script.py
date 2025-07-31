@@ -94,13 +94,21 @@ def SetDate(driver):
         driver.execute_script("arguments[0].click();", calendar_btn)
         print("Opened calendar")
 
+        next_month_btn = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Next month']"))
+        )
+
+        time.sleep(0.5)  # Just to ensure smooth transition
+        driver.execute_script("arguments[0].click();", next_month_btn)
+        print("Clicked next month")
+
         # Wait and click the date with aria-label "Thursday, July 31, 2025" (change to Saturday, August 2, 2025 to test on the day)
-        target_label = "Thursday, July 31, 2025"
+        target_label = "Saturday, August 2, 2025"
         date_cell = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, f"div[aria-label='{target_label}']"))
         )
         #date_cell.click()
-        time.sleep(1)
+        time.sleep(0.2)
         driver.execute_script("arguments[0].click();", date_cell)
         print(f"Selected Date {target_label}")
 
@@ -125,7 +133,7 @@ def MonitorPassAvailability():
         driver.delete_all_cookies()
         driver.refresh()
         driver.delete_all_cookies()
-        time.sleep(3)
+        time.sleep(0.1)
 
         SelectPass(driver)
 
@@ -172,8 +180,8 @@ def MonitorPassAvailability():
         driver.quit()
 
         # Wait for 3 minutes before refreshing and checking again
-        print("Waiting for 20 seconds before checking again...")
-        time.sleep(20)  # Wait for 3 minutes (180 seconds)
+        print("Waiting for 1 seconds before checking again...")
+        time.sleep(1)  # Wait for 3 minutes (180 seconds)
         
 
 # Main function to run the script
