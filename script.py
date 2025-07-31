@@ -145,36 +145,11 @@ def MonitorPassAvailability():
         else:
             # If pass is not Full, play a sound for "available"
             PlaySound("available")
+            for i in range(420):
+                print("waiting")
+                time.sleep(1)
 
-            try:
-                # this portion is untested as I couldn't find exact element tags for when a ticket becomes available
-                # Wait until the radio button becomes clickable (i.e., enabled)
-                day_radio = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.ID, "visitTimeDAY"))
-                )
-                driver.execute_script("arguments[0].click();", day_radio)
-                print("Clicked the DAY radio button!")
 
-                # Wait for the #passCount select dropdown to appear
-                pass_count_select = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.ID, "passCount"))
-                )
-
-                # Create Select object and get all available options
-                select = Select(pass_count_select)
-                options = select.options
-
-                if len(options) > 1:
-                    # Select the last option (skipping placeholder at index 0)
-                    select.select_by_index(len(options) - 1)
-                    print(f"Selected {options[-1].text} pass(es)")
-                else:
-                    print("No valid pass options available.")
-
-                # stall for 7 mins so we can book manually 
-                time.sleep(420)
-            except Exception as e:
-                print(f"Error while selecting time or number of passes: {e}")
 
 
         driver.quit()
